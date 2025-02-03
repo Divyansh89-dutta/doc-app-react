@@ -3,3 +3,6 @@
 ::selection{
     color: rgb(54, 135, 155);
 }
+::-webkit-scrollbar{
+    display: none;
+}

@@ -1,37 +1,91 @@
-import React from 'react'
 import { FaRegFileAlt } from "react-icons/fa";
 import { LuDownload } from "react-icons/lu";
-import { IoClose } from "react-icons/io5";
-import { motion } from "motion/react";
+import { IoClose, IoPencil, IoCheckmark } from "react-icons/io5";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
+function Cards({ data, reference, onDelete, onEdit }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(data.title);
+  const [desc, setDesc] = useState(data.desc);
 
+  const downloadText = () => {
+    const content = `Title: ${data.title}\nDescription: ${data.desc}`;
+    const blob = new Blob([content], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${data.title.replace(/\s+/g, "_")}.txt`;
+    link.click();
+  };
 
-function Cards({data, reference}) {
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    onEdit(title, desc);
+  };
+
   return (
-    <motion.div drag dragConstraints={reference} className=' relative w-60 h-72 rounded-[45px] bg-zinc-900/90 text-white px-8 py-10 overflow-hidden'>
-        <FaRegFileAlt/>
-        <p className='text-sm leading-tight mt-5 font-semibold'> {data.desc} </p>
-        <div className='footer absolute bottom-0  w-full  left-0'>
-            <div className='flex items-center justify-between px-8  py-3 mb-3'>
-                <h5>{data.filesize}</h5>
-                <span className='w-7 h-7 bg-zinc-100 rounded-full flex items-center justify-center '>
-                    {data.close ? <IoClose color='#000'/>: <LuDownload size=".8em" color='#000'/>}
-                    
-                </span>
-                
-            </div>
-            {data.Tag.isOpen && (
-            <div className= {`tag w-full py-4 bg-green-600 flex items-center justify-center`} >
-               <h3 className='text-sm font-semibold'>{data.Tag.tagTittle}</h3>
-            </div>
-            ) 
-            }
-            
-            
-        </div>
-            
+    <motion.div
+      drag
+      dragConstraints={reference}
+      className="relative w-64 h-64 rounded-3xl bg-zinc-600 text-white p-6 shadow-lg overflow-hidden"
+    >
+      <div className="flex items-center gap-3">
+        <FaRegFileAlt size={20} />
+        <span className="text-lg font-semibold">Note</span>
+      </div>
+      {isEditing ? (
+        <>
+          <input
+            className="w-full text-lg font-bold bg-transparent border-b border-gray-500 outline-none mt-3 p-1"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <textarea
+            className="w-full text-sm bg-transparent border border-gray-500 outline-none mt-3 lg:p-2 rounded-md"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+          <button
+            onClick={handleSave}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-md lg:mt-3 transition"
+          >
+            Save
+          </button>
+        </>
+      ) : (
+        <>
+          <h3 className="text-lg font-bold mt-4">{data.title}</h3>
+          <p className="text-sm text-gray-300 mt-2 font-medium">{data.desc}</p>
+        </>
+      )}
+      <div className="footer bg-orange-300 h-12 p-2 lg:p-2 absolute bottom-0 w-full left-0 flex justify-around px-5">
+        {!isEditing && (
+          <button
+            className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-300 transition"
+            onClick={handleEdit}
+          >
+            <IoPencil size={16} color="#000" />
+          </button>
+        )}
+        <button
+          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-300 transition"
+          onClick={onDelete}
+        >
+          <IoClose size={16} color="#000" />
+        </button>
+        <button
+          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-300 transition"
+          onClick={downloadText}
+        >
+          <LuDownload size={16} color="#000" />
+        </button>
+      </div>
     </motion.div>
-  )
+  );
 }
 
-export default Cards
+export default Cards;
