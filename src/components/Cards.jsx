@@ -62,10 +62,10 @@ function Cards({ data, reference, onDelete, onEdit }) {
           <p className="text-sm text-gray-300 mt-2 font-medium">{data.desc}</p>
         </>
       )}
-      <div className="footer bg-orange-300 h-12 p-2 lg:p-2 absolute bottom-0 w-full left-0 flex justify-around px-5">
+      <div className="footer bg-blue-300 h-13 p-2 lg:p-2 absolute bottom-0 w-full left-0 flex justify-around px-5">
         {!isEditing && (
           <button
-            className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-300 transition"
+            className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-300 transition"
             onClick={handleEdit}
           >
             <IoPencil size={16} color="#000" />
