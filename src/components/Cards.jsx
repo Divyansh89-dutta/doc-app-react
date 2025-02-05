@@ -32,7 +32,7 @@ function Cards({ data, reference, onDelete, onEdit }) {
     <motion.div
       drag
       dragConstraints={reference}
-      className="relative w-64 h-64 rounded-3xl bg-zinc-600 text-white p-6 shadow-lg overflow-hidden"
+      className="relative w-64 h-88 rounded-3xl bg-zinc-600 text-white p-6 shadow-lg overflow-hidden"
     >
       <div className="flex items-center gap-3">
         <FaRegFileAlt size={20} />
