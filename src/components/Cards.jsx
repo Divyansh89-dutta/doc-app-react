@@ -8,6 +8,7 @@ function Cards({ data, reference, onDelete, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(data.title);
   const [desc, setDesc] = useState(data.desc);
+  const [img, setImg] = useState(data.img);
 
   const downloadText = () => {
     const content = `Title: ${data.title}\nDescription: ${data.desc}`;
@@ -24,7 +25,7 @@ function Cards({ data, reference, onDelete, onEdit }) {
 
   const handleSave = () => {
     setIsEditing(false);
-    onEdit(title, desc);
+    onEdit(title, desc, img);
   };
 
   return (
@@ -49,6 +50,12 @@ function Cards({ data, reference, onDelete, onEdit }) {
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
           />
+          <input
+            className="w-full text-sm bg-transparent border border-gray-500 outline-none mt-3 lg:p-2 rounded-md"
+            placeholder="Enter image URL"
+            value={img}
+            onChange={(e) => setImg(e.target.value)}
+          />
           <button
             onClick={handleSave}
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-md lg:mt-3 transition"
@@ -58,6 +65,7 @@ function Cards({ data, reference, onDelete, onEdit }) {
         </>
       ) : (
         <>
+          {img && <img src={img} alt="Card Image" className="w-full h-32 object-cover rounded-md mt-3" />}
           <h3 className="text-lg font-bold mt-4">{data.title}</h3>
           <p className="text-sm text-gray-300 mt-2 font-medium">{data.desc}</p>
         </>
